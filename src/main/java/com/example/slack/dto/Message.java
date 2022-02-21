@@ -9,8 +9,8 @@ import lombok.*;
 @AllArgsConstructor
 @ToString
 public class Message {
-    private Long senderId;
-    private Long receiverId;
+    private Long senderid;
+    private Long receiverid;
     private String message;
     private String Status;
 }

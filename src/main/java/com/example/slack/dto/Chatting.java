@@ -33,4 +33,18 @@ public class Chatting {
     @ManyToOne
     @JoinColumn
     private Workspaces workspacesId;
+
+
+//userimpl에서 가져온다
+    public Chatting(String message, User senderId, User receiverId, Workspaces workspacesId) {
+        this.message = message;
+        this.senderId = senderId;
+        this.receiverId = receiverId;
+        this.workspacesId = workspacesId;
+    }
+
+    //db에서 userid검색해야함
+    public Chatting(Message message) {
+        this.message = message.getMessage();
+    }
 }

@@ -1,31 +1,36 @@
 package com.example.slack.controller;
 
-import com.example.slack.dto.Chatting;
-import com.example.slack.repository.ChatRepository;
-import com.example.slack.repository.RoomRepository;
-import com.example.slack.security.UserDetailsImpl;
-import com.example.slack.service.UserService;
-import lombok.Getter;
-import org.springframework.messaging.handler.annotation.MessageMapping;
-import org.springframework.messaging.simp.SimpMessagingTemplate;
-import org.springframework.security.core.annotation.AuthenticationPrincipal;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PathVariable;
 
+import com.example.slack.dto.Message;
+import com.example.slack.service.ChatService;
+import lombok.RequiredArgsConstructor;
+
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.messaging.handler.annotation.MessageMapping;
+import org.springframework.messaging.handler.annotation.Payload;
+import org.springframework.messaging.handler.annotation.SendTo;
+import org.springframework.messaging.simp.SimpMessagingTemplate;
+import org.springframework.stereotype.Controller;
+
+
+@Controller
+@RequiredArgsConstructor
 public class ChatController {
 
-    private UserService userService;
-    private ChatRepository chatRepository;
-    private SimpMessagingTemplate webSocket;
-    private RoomRepository roomRepository;
+    @Autowired
+    private SimpMessagingTemplate simpMessagingTemplate;
+    private final ChatService chatService;
 
-
-    //chatID가 와야함
-    @GetMapping("/chat/{workspaceId}")
-    public String Chatting(@PathVariable Long workspaceId, @AuthenticationPrincipal UserDetailsImpl userDetails) {
-        String user = userDetails.getUsername();
-        String result = String.valueOf(roomRepository.findById(user, workspaceId));
-        return result;
+    @MessageMapping("/message") //app/message
+    @SendTo("/chatroom/public")
+    public Message receivePublicMessage(@Payload Message message){
+        return message;
     }
 
+    @MessageMapping("/private-message")
+    public Message receiverPrivateMessage(@Payload Message message) {
+        simpMessagingTemplate.convertAndSendToUser(message.getReceiverName(), "/private", message);//user/David/private
+        chatService.save(message);
+        return message;
+    }
 }
