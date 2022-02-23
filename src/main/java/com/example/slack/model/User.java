@@ -27,6 +27,10 @@ public class User {
     @Column(nullable = false, unique = true)
     private String nickname;
 
+
+    @Column
+    private String imageUrl;
+
 //    @OneToMany()
 //    private Post post;
 
@@ -38,5 +42,9 @@ public class User {
         this.password = password;
         this.nickname = nickname;
     }
+    public User(String imageUrl) {
+        this.imageUrl = imageUrl;
+    }
+
 
 }
