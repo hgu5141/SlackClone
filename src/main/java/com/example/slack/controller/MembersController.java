@@ -46,7 +46,7 @@ public class MembersController {
         Optional<Workspaces> workspaces = workspacesRepository.findById(workId);
         List<Members> memberList = membersRepository.findByWorkspaces(workspaces);
         List<MembersResponseDto> membersResponseDtos = new ArrayList<>();
-        for(Members members : memberList) {
+        for (Members members : memberList) {
             Long workId1 = members.getWorkspaces().getWorkId();
             String workName = members.getWorkspaces().getWorkName();
             Long memberId = members.getMemberId();
@@ -55,7 +55,7 @@ public class MembersController {
             membersResponseDtos.add(membersResponseDto);
         }
         return membersResponseDtos;
-        }
+    }
 
     //탈퇴
     @DeleteMapping("/api/members/{memberId}")
