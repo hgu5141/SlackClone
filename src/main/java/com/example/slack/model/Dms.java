@@ -2,6 +2,7 @@ package com.example.slack.model;
 
 import lombok.Getter;
 import lombok.NoArgsConstructor;
+import lombok.Setter;
 
 import javax.persistence.*;
 import java.util.Optional;
@@ -9,6 +10,7 @@ import java.util.Optional;
 @Entity
 @NoArgsConstructor
 @Getter
+@Setter
 public class Dms {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Id
@@ -27,15 +29,13 @@ public class Dms {
     private Workspaces workspaces;
 
     @Column
-    private String message;
+    private String chat;
 
-    public Dms(Members members, User user, Workspaces workspaces, String message) {
+
+    public Dms(Members members, User user, Workspaces workspaces, String chat) {
         this.members = members;
         this.user = user;
         this.workspaces = workspaces;
-        this.message = message;
-    }
-
-    public Dms(Optional<Members> members, User user, Optional<Workspaces> workspaces, String message) {
+        this.chat = chat;
     }
 }

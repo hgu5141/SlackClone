@@ -41,7 +41,7 @@ public class MembersController {
 
 
     //   //조회    List<Workspaces> findByUser(Optional<User> user);
-    @GetMapping("/api/dms/{workId}")
+    @GetMapping("/api/members/{workId}")
     public List<MembersResponseDto> getMembers(@PathVariable Long workId, @AuthenticationPrincipal UserDetailsImpl userDetails) {
         Optional<Workspaces> workspaces = workspacesRepository.findById(workId);
         List<Members> memberList = membersRepository.findByWorkspaces(workspaces);
