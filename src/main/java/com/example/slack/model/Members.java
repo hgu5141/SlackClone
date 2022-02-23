@@ -15,18 +15,18 @@ import java.time.LocalDateTime;
 public class Members extends Timestamped {
 
     @Id
-    @GeneratedValue(strategy = GenerationType.AUTO)
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long memberId;
 
     @Column
     private String memberName;
 
     @ManyToOne
-    @JoinColumn(name = "workId", nullable = false)
+    @JoinColumn(name = "workId")
     private Workspaces workspaces;
 
     @ManyToOne
-    @JoinColumn(name = "userId", nullable = false)
+    @JoinColumn(name = "userId")
     private User user;
 
     @Column

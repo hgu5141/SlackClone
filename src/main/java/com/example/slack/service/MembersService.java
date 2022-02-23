@@ -38,13 +38,13 @@ public class MembersService {
             throw new IllegalArgumentException("초대할 유저의 이메일을 입력해주세요.");
         }
         Optional<User> found = userRepository.findByUsername(member);
-        Optional<Members> foundm = membersRepository.findByMemberNameAndWorkspaces(membersRequestDto.getMemberName(),workspaces);
+//        Optional<Members> foundm = membersRepository.findByMemberNameAndWorkspaces(membersRequestDto.getMemberName(),workspaces);
         if(!found.isPresent()){
             throw new IllegalArgumentException("없는 이메일 주소입니다.");
         }
-        if(foundm.isPresent()){
-            throw new IllegalArgumentException("이미 워크스페이스 멤버입니다.");
-        }
+//        if(foundm.isPresent()){
+//            throw new IllegalArgumentException("이미 워크스페이스 멤버입니다.");
+//        }
 
         User user = userDetails.getUser();
 
