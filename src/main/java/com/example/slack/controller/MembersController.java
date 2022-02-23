@@ -50,58 +50,12 @@ public class MembersController {
             Long workId1 = members.getWorkspaces().getWorkId();
             String workName = members.getWorkspaces().getWorkName();
             Long memberId = members.getMemberId();
-            String memberName = members.getMemberName();
-            MembersResponseDto membersResponseDto = new MembersResponseDto(workId1, workNaame, memberId, memberName);
+            String memberName = members.getUser().getNickname();
+            MembersResponseDto membersResponseDto = new MembersResponseDto(workId1, workName, memberId, memberName);
             membersResponseDtos.add(membersResponseDto);
         }
         return membersResponseDtos;
-
-//        System.out.println("시작");
-//        List<Optional<Members>> membersList = singletonList(membersRepository.findById(workId));
-//        System.out.println(membersList);
-//
-//        List<MembersResponseDto> membersResponseDtos = new ArrayList<>();
-//        for (Optional<Members> members : membersList) {
-//            Long memberId = members.get().getMemberId();
-//            String memberName = members.get().getMemberName();
-//            Long work = members.get().getWorkspaces().getWorkId();
-//            String workname = members.get().getWorkspaces().getWorkName();
-//
-//            System.out.println("트라이");
-//            MembersResponseDto membersResponseDto = new MembersResponseDto(memberId, memberName, work, workname);
-//            membersResponseDtos.add(membersResponseDto);
-
         }
-//        return membersResponseDtos;
-
-
-//        User user = userDetails.getUser();
-//        Optional<Members> membersList = membersRepository.findByMemberName(user, workId);
-//        System.out.println(membersList);
-//        for(dms : dmsList)
-//        String dmsNickName = dmsList.get().getUser().getNickname();
-//        String dmsUsername = dmsList.get().getMemberName();
-//
-//        return null;
-//
-//
-//    }
-//        List<Members> dmsList = membersRepository.findAllById(Collections.singleton(userDetails.getUser().getUserid()));
-////        Optional<User> memberNickname = userRepository.findByUsername(membersRepository.getMemberName());
-//        List<MembersResponseDto> membersResponseDtos = new ArrayList<>();
-//
-//        for (Members members : dmsList) {
-//           MembersResponseDto membersResponseDto = new MembersResponseDto(
-//                    members.getWorkspaces().getWorkId(),
-//                    members.getWorkspaces().getWorkName(),
-//                    members.getMemberId(),
-//                   members.getMemberName()
-//            );
-//
-//            membersResponseDtos.add(membersResponseDto);
-//        }
-//        return membersResponseDtos;
-//    }
 
     //탈퇴
     @DeleteMapping("/api/members/{memberId}")
