@@ -21,20 +21,21 @@ public class WorkspacesController {
 
     private final WorkspacesRepository workspacesRepository;
     private final WorkspacesService workspacesService;
-    private final UserRepository userRepository;
 
     //워크스페이스 생성
     @PostMapping("/api/workspaces")
-    public Workspaces ceateWs(
+    public Workspaces createWs(
             @RequestBody WorkspacesRequestDto workspacesRequestDto,
             @AuthenticationPrincipal UserDetailsImpl userDetails
     ) {
+
         User user = userDetails.getUser();
+
         return workspacesService.createWs(workspacesRequestDto, user);
     }
 
     // 워크스페이스 조회
-    @GetMapping("/api/workspaces/")
+    @GetMapping("/api/workspaces")
     public List<WorkspacesResponseDto> getWorkspace() {
 
         List<Workspaces> workspacesList = workspacesRepository.findAllByOrderByCreatedAtDesc();

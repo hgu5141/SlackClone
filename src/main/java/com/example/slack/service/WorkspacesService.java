@@ -24,7 +24,7 @@ public class WorkspacesService {
             WorkspacesRequestDto workspacesRequestDto, User user) {
 
         String workName = workspacesRequestDto.getWorkName();
-        if(workspacesRequestDto.getWorkName() == null){
+        if(workName == null){
             throw new IllegalArgumentException("워크스페이스 이름을 입력해주세요.");
         }
 
