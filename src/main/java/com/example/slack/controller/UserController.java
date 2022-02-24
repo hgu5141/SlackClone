@@ -1,15 +1,15 @@
 package com.example.slack.controller;
 
 
-import com.example.slack.dto.SignupRequestDto;
-import com.example.slack.dto.UserInfoDto;
-import com.example.slack.dto.UserResponseDto;
-import com.example.slack.dto.WorkInfoDto;
+import com.example.slack.dto.*;
 import com.example.slack.model.User;
+import com.example.slack.model.Workspaces;
 import com.example.slack.repository.UserRepository;
+import com.example.slack.repository.WorkspacesRepository;
 import com.example.slack.security.UserDetailsImpl;
 import com.example.slack.service.S3Uploader;
 import com.example.slack.service.UserService;
+import lombok.RequiredArgsConstructor;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.core.annotation.AuthenticationPrincipal;
@@ -18,20 +18,20 @@ import org.springframework.web.bind.annotation.*;
 import org.springframework.web.multipart.MultipartFile;
 
 import javax.validation.Valid;
+import java.util.ArrayList;
 import java.util.List;
+import java.util.Optional;
 
 @Controller
+@RequiredArgsConstructor
 public class UserController {
 
     private final UserService userService;
     private final S3Uploader s3Uploader;
     private final UserRepository userRepository;
+    private final WorkspacesRepository workspacesRepository;
 
-    public UserController(UserService userService, S3Uploader s3Uploader, UserRepository userRepository) {
-        this.userService = userService;
-        this.s3Uploader = s3Uploader;
-        this.userRepository = userRepository;
-    }
+
 
 
     // 회원 로그인 페이지
@@ -77,6 +77,23 @@ public class UserController {
     public List<WorkInfoDto> getWorkInfo(@AuthenticationPrincipal UserDetailsImpl userDetails) {
         String username = userDetails.getUser().getUsername();
         return userService.getWorkInfo(username);
+    }
+
+    @PostMapping("/user/worklist")
+    @ResponseBody
+    public List<WorkListDto> getWorkList(@AuthenticationPrincipal UserDetailsImpl userDetails) {
+        User user = userDetails.getUser();
+        List<Workspaces> workspacesList = workspacesRepository.findByUser(user);
+        List<WorkListDto> workListDtos = new ArrayList<>();
+        for(Workspaces workspaces : workspacesList){
+            Long workId = workspaces.getWorkId();
+            String workName = workspaces.getWorkName();
+
+            WorkListDto workListDto = new WorkListDto(workId, workName);
+            workListDtos.add(workListDto);
+        }
+        return workListDtos;
+
     }
 
     //user프로필 저장
