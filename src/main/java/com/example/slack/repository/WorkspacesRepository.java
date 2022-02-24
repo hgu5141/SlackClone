@@ -11,5 +11,6 @@ import java.util.Optional;
 public interface WorkspacesRepository extends JpaRepository<Workspaces, Long> {
     List<Workspaces> findAllByOrderByCreatedAtDesc();
 //    List<Workspaces> findByUsername(String username);
+    List<Workspaces> findByUser(User user);
     List<Workspaces> findByUser(Optional<User> user);
 }

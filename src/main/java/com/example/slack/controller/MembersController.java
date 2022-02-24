@@ -47,8 +47,10 @@ public class MembersController {
         List<Members> memberList = membersRepository.findByWorkspaces(workspaces);
         List<MembersResponseDto> membersResponseDtos = new ArrayList<>();
         for (Members members : memberList) {
+
             Long workId1 = members.getWorkspaces().getWorkId();
             String workName = members.getWorkspaces().getWorkName();
+
             Long memberId = members.getMemberId();
             String memberName = members.getUser().getNickname();
             MembersResponseDto membersResponseDto = new MembersResponseDto(workId1, workName, memberId, memberName);
