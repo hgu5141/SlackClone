@@ -68,6 +68,7 @@ public class UserController {
     public UserInfoDto getUserInfo(@AuthenticationPrincipal UserDetailsImpl userDetails) {
         String username = userDetails.getUser().getUsername();
         String nickname = userDetails.getUser().getNickname();
+//        String imageUrl = userDetails.getUser().getImageUrl();
         return new UserInfoDto(username, nickname);
     }
 

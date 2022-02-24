@@ -5,28 +5,30 @@ import com.example.slack.timestamped.Timestamped;
 import lombok.Builder;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
+import lombok.Setter;
 
 import javax.persistence.*;
 import java.time.LocalDateTime;
 
 @Getter
 @Entity
+@Setter
 @NoArgsConstructor
 public class Members extends Timestamped {
 
     @Id
-    @GeneratedValue(strategy = GenerationType.AUTO)
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long memberId;
 
     @Column
     private String memberName;
 
     @ManyToOne
-    @JoinColumn(name = "workId", nullable = false)
+    @JoinColumn(name = "workId")
     private Workspaces workspaces;
 
     @ManyToOne
-    @JoinColumn(name = "userId", nullable = false)
+    @JoinColumn(name = "userId")
     private User user;
 
     @Column
