@@ -2,6 +2,7 @@ package com.example.slack.controller;
 
 import com.example.slack.dto.ChatDto;
 import com.example.slack.dto.ChatResponseDto;
+import com.example.slack.dto.DmsReqeustDto;
 import com.example.slack.model.Dms;
 import com.example.slack.model.Members;
 import com.example.slack.model.User;
@@ -15,10 +16,10 @@ import com.example.slack.service.MessageService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.security.core.annotation.AuthenticationPrincipal;
 import org.springframework.stereotype.Controller;
-import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
+import org.springframework.web.bind.annotation.ResponseBody;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -35,6 +36,7 @@ public class DmsController {
     private final UserRepository userRepository;
 
     @PostMapping("api/dms/{workId}")
+    @ResponseBody
     public void addMessage(@PathVariable Long workId, @RequestBody ChatDto messageDto, @AuthenticationPrincipal UserDetailsImpl userDetails) {
         System.out.println("1");
         Workspaces workspaces = workspacesRepository.findById(workId).orElseThrow(()-> new IllegalArgumentException("워크스페이 조회 X"));
@@ -46,12 +48,15 @@ public class DmsController {
         messageService.addMessage(messageDto, workspaces, members, user);
     }
 
-    @GetMapping("/api/dms/{workId}/{memberId}")
-    public List<ChatResponseDto> getChat(@PathVariable Long workId, @PathVariable Long memberId, @AuthenticationPrincipal UserDetailsImpl userDetails) {
+    @PostMapping("/api/dms/{workId}/{memberId}")
+    @ResponseBody
+    public List<ChatResponseDto> getChat(@PathVariable Long workId, @PathVariable Long memberId, @RequestBody DmsReqeustDto dmsReqeustDto) {
 
-        User user = userRepository.findById(userDetails.getUser().getUserid()).orElseThrow(
-                () -> new IllegalArgumentException("유저가 없어요")
-        );
+        String username = dmsReqeustDto.getUsername();
+        Optional<User> user = userRepository.findByUsername(username);
+//        User user = userRepository.findById(userDetails.getUser().getUserid()).orElseThrow(
+//                () -> new IllegalArgumentException("유저가 없어요")
+//        );
         Workspaces workspaces = workspacesRepository.findById(workId).orElseThrow(
                 ()-> new IllegalArgumentException("웤스가 없어요")
         );
@@ -60,21 +65,31 @@ public class DmsController {
         );
 
 
+        System.out.println("1");
         List<Dms> dmsList = dmsRepository.findByWorkspacesAndUserAndMembers(workspaces, user,members);
 
-        Optional<User> receiver = userRepository.findById(memberId);
-        String memberNickname = receiver.get().getNickname();
+        System.out.println("2");
 
+//        Optional<User> usertmp = userRepository.findByUsername(dmsReqeustDto.getUsername());
+        Optional<User> usertmp = userRepository.findByUsername(members.getMemberName());
+//        Optional<User> receiver = userRepository.findById(memberId);
+        String memberNickname = usertmp.get().getNickname();
+        String memberNick = memberNickname;
+
+        System.out.println("3");
         List<ChatResponseDto> chatResponseDtos = new ArrayList<>();
 
+        System.out.println("4");
         for (Dms dm : dmsList) {
             ChatResponseDto chatResponseDto = new ChatResponseDto(
                     dm.getWorkspaces().getWorkId(),
                     dm.getUser().getNickname(),
                     dm.getChat(),
-                    memberNickname
+                    memberNick
             );
+            System.out.println("5");
             chatResponseDtos.add(chatResponseDto);
+
         }
         return chatResponseDtos;
 
