@@ -2,7 +2,6 @@ package com.example.slack.controller;
 
 import com.example.slack.dto.MembersRequestDto;
 import com.example.slack.dto.MembersResponseDto;
-import com.example.slack.dto.WorkInfoDto;
 import com.example.slack.model.Members;
 import com.example.slack.model.User;
 import com.example.slack.model.Workspaces;
@@ -48,12 +47,24 @@ public class MembersController {
         List<MembersResponseDto> membersResponseDtos = new ArrayList<>();
         for (Members members : memberList) {
 
+            //멤버네임//1
+            //멤버 아이디 //자기 이름으로 나온다.
+            //workspaces는 정상
             Long workId1 = members.getWorkspaces().getWorkId();
             String workName = members.getWorkspaces().getWorkName();
 
+
+            String username = members.getMemberName();
+            Optional<User> tmp = userRepository.findByUsername(username);
+            String memberNick = tmp.get().getNickname();
+
             Long memberId = members.getMemberId();
-            String memberName = members.getUser().getNickname();
-            MembersResponseDto membersResponseDto = new MembersResponseDto(workId1, workName, memberId, memberName);
+            String memberEmail = members.getMemberName();
+
+            System.out.println(memberId);
+            String memberNickname = memberNick;
+            System.out.println();
+            MembersResponseDto membersResponseDto = new MembersResponseDto(workId1, workName, memberId, memberNickname, memberEmail);
             membersResponseDtos.add(membersResponseDto);
         }
         return membersResponseDtos;

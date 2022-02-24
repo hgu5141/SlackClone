@@ -12,11 +12,14 @@ public class MembersResponseDto {
     private final String workName;
     private final Long memberId;
     private final String memberName;
+    private final String memberEmail;
 
-    public MembersResponseDto(Long workId, String workName, Long memberId, String memberName) {
+    public MembersResponseDto(Long workId, String workName, Long memberId, String memberName, String memberEmail) {
         this.workId = workId;
         this. workName = workName;
         this.memberId = memberId;
         this.memberName = memberName;
+        this.memberEmail = memberEmail;
+
     }
 }

@@ -31,8 +31,7 @@ public class DmsController {
         Members members = membersRepository.findByMemberNameAndWorkspaces(memberName, workspaces).orElseThrow(()-> new IllegalArgumentException("조회불가")); //워크스페이스 상의 멤버들 리스트화
         System.out.println(workspaces);
         User user = userDetails.getUser();
-            System.out.println("3");
-            messageService.addMessage(messageDto, workspaces, members, user);
-
+        System.out.println("3");
+        messageService.addMessage(messageDto, workspaces, members, user);
     }
 }
