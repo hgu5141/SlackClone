@@ -30,7 +30,6 @@ public class BookmarkController {
             @PathVariable Long workId) {
 
         User user = userDetails.getUser();
-
         return bookmarkService.createbookmark(bookmarkRequestDto, user, workId);
     }
 

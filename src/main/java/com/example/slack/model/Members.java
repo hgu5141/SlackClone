@@ -1,5 +1,6 @@
 package com.example.slack.model;
 
+import com.example.slack.dto.MemberWorkDto;
 import com.example.slack.dto.MembersRequestDto;
 import com.example.slack.timestamped.Timestamped;
 import lombok.Builder;
@@ -44,4 +45,12 @@ public class Members extends Timestamped {
         this.user = user;
         this.workspaces = workspaces;
     }
+
+    public Members(MemberWorkDto memberWorkDto, Workspaces workspaces, User user) {
+        this.memberName = memberWorkDto.getMemberName();
+        this.user = user;
+        this.workspaces = workspaces;
+    }
+
+
 }

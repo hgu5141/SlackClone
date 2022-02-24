@@ -8,8 +8,8 @@ import lombok.Setter;
 public class ChatResponseDto {
 
     private final Long workId;
-    private final String chat;
     private final String nickname;
+    private final String chat;
     private final String memberNickname;
 
     public ChatResponseDto(Long workId, String nickname, String chat, String memberNickname) {
@@ -17,6 +17,5 @@ public class ChatResponseDto {
         this.nickname = nickname;
         this.chat = chat;
         this.memberNickname = memberNickname;
-
     }
 }

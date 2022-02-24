@@ -34,7 +34,6 @@ public class MembersController {
             @RequestBody MembersRequestDto MembersRequestDto,
             @AuthenticationPrincipal UserDetailsImpl userDetails,
             @PathVariable Long workId) {
-
         return MembersService.addMember(workId, MembersRequestDto, userDetails);
     }
 

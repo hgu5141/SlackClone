@@ -4,7 +4,6 @@ import com.example.slack.dto.WorkspacesRequestDto;
 import com.example.slack.dto.WorkspacesResponseDto;
 import com.example.slack.model.User;
 import com.example.slack.model.Workspaces;
-import com.example.slack.repository.UserRepository;
 import com.example.slack.repository.WorkspacesRepository;
 import com.example.slack.security.UserDetailsImpl;
 import com.example.slack.service.WorkspacesService;
@@ -14,6 +13,7 @@ import org.springframework.web.bind.annotation.*;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Optional;
 
 @RequiredArgsConstructor
 @RestController
@@ -23,12 +23,22 @@ public class WorkspacesController {
     private final WorkspacesService workspacesService;
 
     //워크스페이스 생성
+//    @PostMapping("/api/workspaces")
+//    public Workspaces createWs(
+//            @RequestBody WorkspacesRequestDto workspacesRequestDto,
+//            @AuthenticationPrincipal UserDetailsImpl userDetails
+//    ) {
+//
+//        User user = userDetails.getUser();
+//
+//        return workspacesService.createWs(workspacesRequestDto, user);
+//    }
+
     @PostMapping("/api/workspaces")
-    public Workspaces createWs(
+    public Optional<Workspaces> createWs(
             @RequestBody WorkspacesRequestDto workspacesRequestDto,
             @AuthenticationPrincipal UserDetailsImpl userDetails
     ) {
-
         User user = userDetails.getUser();
 
         return workspacesService.createWs(workspacesRequestDto, user);
